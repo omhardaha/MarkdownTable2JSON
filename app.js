@@ -16,14 +16,20 @@ fs.readFile('data.md', "utf8", function (err, data) {
 function HtmlToArrayOfObjects(dataHtml) {
     const tables = HtmlTableToJson.parse(dataHtml)
     // console.log(tables.results);
+    let extractedTable;
+
     tables.results.forEach((table) => {
         // if (validTable(table)) console.log(table);
-        extractedTable = isValidTableOrNot(table)
+        tempTable = isValidTableOrNot(table)
+
         if (extractedTable) {
             console.log(JSON.stringify(extractedTable));
             return;
         }
+
     });
+
+    return extractedTable
 }
 
 function isValidTableOrNot(table) {
@@ -104,41 +110,3 @@ function isValidTableOrNot(table) {
 
 }
 
-
-let validTable = (table) => {
-
-    // validation for keys
-    let firstObject = Object.entries(table[0]);
-    if (firstObject.length != 4) return false;
-
-    let TaskName = firstObject[0][0].split(' ');
-    if (TaskName[0] !== 'Task') return false;
-    if (TaskName[TaskName.length - 1] !== 'Name') return false;
-
-    let TaskDescription = firstObject[1][0].split(' ');
-    if (TaskDescription[0] !== 'Task') return false;
-    if (TaskDescription[TaskDescription.length - 1] !== 'Description') return false;
-
-    let QTY = firstObject[2][0];
-    if (QTY !== 'QTY') return false;
-
-    let Price = firstObject[3][0];
-    if (Price !== 'Price($)') return false;
-
-    // Validation For Values
-    table.forEach((row) => {
-
-        let firstObject = Object.entries(row);
-
-        if (!(typeof firstObject[0][1] === 'string' || firstObject[0][1] instanceof String)) return false;
-        if (!(typeof firstObject[1][1] === 'string' || firstObject[1][1] instanceof String)) return false;
-
-        if (!(typeof firstObject[1][2] === 'string' || firstObject[1][1] instanceof String)) return false;
-
-        console.log(firstObject);
-    });
-
-    // console.log(firstObject);
-
-    return false;
-};
