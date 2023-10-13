@@ -22,7 +22,8 @@ function HtmlToArrayOfObjects(dataHtml) {
         // if (validTable(table)) console.log(table);
         tempTable = isValidTableOrNot(table)
 
-        if (extractedTable) {
+        if (tempTable) {
+            extractedTable = tempTable 
             console.log(JSON.stringify(extractedTable));
             return;
         }
